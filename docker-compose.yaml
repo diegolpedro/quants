@@ -53,7 +53,7 @@ services:
     env_file:
       - .env
     networks:
-      - mi-red
+      - gather-net
 
 networks:
   mi-red:
