@@ -1,0 +1,61 @@
+services:
+
+  webdev:
+    build: .
+    container_name: webdev
+    command: ./manage.py runserver 0.0.0.0:8080
+    volumes:
+      - .:/app
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env
+    networks:
+      - mi-red
+
+  collstatics:
+    build: .
+    container_name: collstatics
+    command: ./manage.py collectstatic --noinput
+    volumes:
+      - .:/app
+    env_file:
+      - .env
+
+  migrate:
+    build: .
+    container_name: migrate
+    command: ./manage.py migrate
+    volumes:
+      - .:/app
+    env_file:
+      - .env
+
+  makemigrations:
+    build: .
+    container_name: makemigrations
+    command: ./manage.py makemigrations
+    volumes:
+      - .:/app
+    env_file:
+      - .env
+
+  webprod:
+    build: .
+    container_name: webprod
+    command: gunicorn --workers=3 --bind=0.0.0.0:8080 quants.wsgi:application
+    volumes:
+      - .:/app
+    depends_on:
+      - collstatics
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env
+    networks:
+      - mi-red
+
+networks:
+  mi-red:
+    external: true
+    

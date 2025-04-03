@@ -1,0 +1,49 @@
+.btn-chico {
+  display: block;
+  max-width: 18px;
+  height: auto;
+}
+
+
+
+/* SOLAPAS */
+div.tabck {
+    border: gray solid 1px;
+    border-bottom: 0;
+    border-radius: 0.5em 0.5em 0 0;
+    background-color: transparent;
+    padding: 0.2em;
+    text-align: center;
+    cursor: pointer;
+    }
+/* El ancho y alto de los div.tabdiv se configuran
+en cada aplicación */
+div.tabdiv {
+    border: 0;
+    padding: 0.5em;
+    overflow: auto;
+    width: 100%;
+    height: auto;
+    }
+
+button.close {
+  float:right;
+  font-size:1.5rem;
+  font-weight:700;
+  line-height:0.8;
+  color:#000;
+  text-shadow:0 1px 0 #fff;
+  opacity:.5;
+  border: 0;
+  background-color:transparent;
+  padding:0;
+  /*! -webkit-appearance:none */
+}
+
+.alert-dismissible .close {
+  position:absolute;
+  top:0;
+  right:0;
+  padding:.75rem 1.25rem;
+  color:inherit;
+}

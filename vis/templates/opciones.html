@@ -1,0 +1,38 @@
+{% extends "panel.html" %}
+{% load bs_tag %}
+
+{% block content %}
+    <h5 class="d-inline"> Screener Opciones </h5>
+    <small><span> ({{ now }} </span>)</small>
+    <div class="container my-3">
+				<!-- <li>{{ opcion.fecha|date }} {{ opcion.subyacente }} {{ opcion.ticker }} {{ opcion.prima }}</li> -->
+				<table>
+		    		<thead>
+		    			<tr>
+		    				<th class="p-2">Subyacente</th>
+		    				<th class="p-2">Tipo</th>
+		    				<th class="p-2">Ticker</th>
+		    				<th class="p-2">Prima</th>
+		    				<th class="p-2">Vencimiento</th>
+		    				<th class="p-2">Estimado</th>
+		    			</tr>
+		    		</thead>
+		    		<tbody>
+		    			{% for obj in object_list %}
+			    			<tr>
+			    				<td class="px-2">{{ obj.opcion.subyacente }}</td>
+			    				<td class="px-2">{{ obj.opcion.tipo|upper }}</td>
+			    				<td class="px-2">{{ obj.opcion.ticker }}</td>
+			    				<td class="px-2" align="right">{{ obj.ultimo }}</td>
+			    				<td class="px-2">{{ obj.opcion.vencimiento_fecha }}</td>
+			    				<td class="px-2" align="right">{% calcular_black_scholes obj.opcion.subyacente obj.opcion.base obj.opcion.tipo|lower obj.opcion.vencimiento_fecha %}</td>
+			    				{# |time #}
+			    			</tr>
+			    		{% empty %}
+						    <td>No hay cotizaciones para mostrar.</td>
+						{% endfor %}
+		    		</tbody>
+		    	</table>
+		</ul>    	
+    </div>
+{% endblock %}

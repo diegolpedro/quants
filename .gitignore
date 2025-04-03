@@ -130,11 +130,14 @@ celerybeat.pid
 # Environments
 .env
 .venv
+.pg_service.conf
+.pgpass
 env/
 venv/
 ENV/
 env.bak/
 venv.bak/
+*.old
 
 # Spyder project settings
 .spyderproject
@@ -172,3 +175,6 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+# Propios
+*.new

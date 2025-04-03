@@ -1,0 +1,218 @@
+{% extends "base.html" %}
+
+{% block navbar %}
+    {% include 'navbar.html' %}
+{% endblock %}
+
+{% block content %}
+
+    {# Tabla de Datos #}
+
+    {% load humanize %}
+
+    <style>
+        /* Reduce altura de filas */
+        table.dataTable tbody tr {
+            line-height: 1;
+        }
+    </style>
+
+
+    <!-- DataTables.js -->
+    <!-- Bootstrap 5 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    
+    <!-- DataTables -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+
+
+    <h5 class="mb-3"> Panel Líderes </h5>
+    <div class="table-responsive mb-5">
+        <table id="tablaLideres" class="table table-striped table-bordered text-end">
+            <thead class="table-light">
+                <tr>
+                    <th class="text-start">Symbol</th>
+                    <th>Last</th>
+                    <th>Change</th>
+                    <th>Open</th>
+                    <th>High</th>
+                    <th>Low</th>
+                    <th>Previous Close</th>
+                    <th>Volume</th>
+                    <th>Operations</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for cot in object_list %}
+                    {% if cot.panel == 'bluechips' %}
+                    <tr>
+                        <td class="">{{ cot.symbol }}</td>
+                        <td class="">{{ cot.last }}</td>
+                        <td class="{% if cot.change > 0.9 %}
+                                        text-success
+                                   {% elif cot.change < -0.3 %}
+                                        text-danger
+                                   {% else %}
+                                        text-primary
+                                    {% endif %}">
+                            {% if cot.change > 0 %}+{% endif %}{{ cot.change|floatformat:1 }}%
+                        </td>
+                        <td class="">{{ cot.open }}</td>
+                        <td class="">{{ cot.high }}</td>
+                        <td class="">{{ cot.low }}</td>
+                        <td class="">{{ cot.previous_close }}</td>
+                        <td class="">{{ cot.volume|intcomma }}</td>
+                        <td class="">{{ cot.operations|intcomma }}</td>
+                    </tr>
+                    {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <h5 class="mb-3"> Bonos </h5>
+    <div class="table-responsive mb-5">
+        <table id="tablaBonos" class="table table-striped table-bordered text-end">
+            <thead class="table-light">
+                <tr>
+                    <th class="text-start">Symbol</th>
+                    <th>Last</th>
+                    <th>Change</th>
+                    <th>Open</th>
+                    <th>High</th>
+                    <th>Low</th>
+                    <th>Previous Close</th>
+                    <th>Volume</th>
+                    <th>Operations</th>
+                    <th>Panel</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for cot in object_list %}
+                    {% if cot.panel == 'government_bonds' or cot.panel == 'short_term_government_bonds' %}
+                    <li class="row">
+                        <td class="">{{ cot.symbol }}</td>
+                        <td class="">{{ cot.last }}</td>
+                        <td class="{% if cot.change > 0.9 %}
+                                        text-success
+                                   {% elif cot.change < -0.3 %}
+                                        text-danger
+                                   {% else %}
+                                        text-primary
+                                    {% endif %}">
+                            {% if cot.change > 0 %}+{% endif %}{{ cot.change|floatformat:1 }}%
+                        </td>
+                        <td class="">{{ cot.open }}</td>
+                        <td class="">{{ cot.high }}</td>
+                        <td class="">{{ cot.low }}</td>
+                        <td class="">{{ cot.previous_close }}</td>
+                        <td class="">{{ cot.volume|intcomma }}</td>
+                        <td class="">{{ cot.operations|intcomma }}</td>
+                        <td class="">{{ cot.panel }}</td>
+                    </li>
+                    {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+
+    <script>
+        $(document).ready( function () {
+            $('#tablaLideres').DataTable();
+            $('#tablaBonos').DataTable();
+        });
+    </script>
+
+        {%comment%}
+        <h5 class="mb-3"> ONs </h5>
+        <li class="row h6">
+            <div class="col-1">symbol</div>
+            <!-- <div class="col-1">datetime</div> -->
+            <div class="col-1">last</div>
+            <div class="col-1">change</div>
+            <div class="col-1">open</div>
+            <div class="col-1">high</div>
+            <div class="col-1">low</div>
+            <div class="col-1">previous_close</div>
+            <!-- <div class="col-1">turnover</div> -->
+            <div class="col-1">volume</div>
+            <div class="col-1">operations</div>
+            <!-- <div class="col-1">expiration</div> -->
+            <!-- <div class="col-1">strike</div> -->
+            <!-- <div class="col-1">kind</div> -->
+            <!-- <div class="col-1">underlying_asset</div> -->
+            <div class="col-1">panel</div>
+        </li>
+        {% for cot in object_list %}
+            {% if cot.panel == 'corporate_bonds' %}
+            <li class="row">
+                <div class="col-1">{{ cot.symbol }}</div>
+                <!-- <div class="col-1">{{ cot.datetime }}</div> -->
+                <div class="col-1">{{ cot.last }}</div>
+                <div class="col-1">{{ cot.change }}</div>
+                <div class="col-1">{{ cot.open }}</div>
+                <div class="col-1">{{ cot.high }}</div>
+                <div class="col-1">{{ cot.low }}</div>
+                <div class="col-1">{{ cot.previous_close }}</div>
+                <!-- <div class="col-1">{{ cot.turnover }}</div> -->
+                <div class="col-1">{{ cot.volume }}</div>
+                <div class="col-1">{{ cot.operations }}</div>
+                <!-- <div class="col-1">{{ cot.expiration }}</div> -->
+                <!-- <div class="col-1">{{ cot.strike }}</div> -->
+                <!-- <div class="col-1">{{ cot.kind }}</div> -->
+                <!-- <div class="col-1">{{ cot.underlying_asset }}</div> -->
+                <div class="col-1">{{ cot.panel }}</div>
+            </li>
+            {% endif %}
+        {% endfor %}
+
+
+        <h5 class="mb-3"> Opciones </h5>
+        <li class="row h6">
+            <div class="col-1">symbol</div>
+            <!-- <div class="col-1">datetime</div> -->
+            <div class="col-1">last</div>
+            <div class="col-1">change</div>
+            <div class="col-1">open</div>
+            <div class="col-1">high</div>
+            <div class="col-1">low</div>
+            <div class="col-1">previous_close</div>
+            <!-- <div class="col-1">turnover</div> -->
+            <div class="col-1">volume</div>
+            <div class="col-1">operations</div>
+            <!-- <div class="col-1">expiration</div> -->
+            <!-- <div class="col-1">strike</div> -->
+            <!-- <div class="col-1">kind</div> -->
+            <!-- <div class="col-1">underlying_asset</div> -->
+            <div class="col-1">panel</div>
+        </li>
+        {% for cot in object_list %}
+            {% if cot.panel is None %}
+            <li class="row">
+                <div class="col-1">{{ cot.symbol }}</div>
+                <!-- <div class="col-1">{{ cot.datetime }}</div> -->
+                <div class="col-1">{{ cot.last }}</div>
+                <div class="col-1">{{ cot.change }}</div>
+                <div class="col-1">{{ cot.open }}</div>
+                <div class="col-1">{{ cot.high }}</div>
+                <div class="col-1">{{ cot.low }}</div>
+                <div class="col-1">{{ cot.previous_close }}</div>
+                <!-- <div class="col-1">{{ cot.turnover }}</div> -->
+                <div class="col-1">{{ cot.volume }}</div>
+                <div class="col-1">{{ cot.operations }}</div>
+                <!-- <div class="col-1">{{ cot.expiration }}</div> -->
+                <!-- <div class="col-1">{{ cot.strike }}</div> -->
+                <!-- <div class="col-1">{{ cot.kind }}</div> -->
+                <!-- <div class="col-1">{{ cot.underlying_asset }}</div> -->
+                <div class="col-1">{{ cot.panel }}</div>
+            </li>
+            {% endif %}
+        {% endfor %}
+        {%endcomment%}
+    </ul>
+
+{% endblock %}
