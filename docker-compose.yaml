@@ -56,6 +56,6 @@ services:
       - gather-net
 
 networks:
-  mi-red:
+  gather-net:
     external: true
     
