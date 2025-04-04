@@ -11,7 +11,7 @@ services:
     env_file:
       - .env
     networks:
-      - mi-red
+      - gather-net
 
   collstatics:
     build: .
@@ -30,6 +30,9 @@ services:
       - .:/app
     env_file:
       - .env
+    networks:
+      - gather-net
+    
 
   makemigrations:
     build: .
@@ -39,6 +42,8 @@ services:
       - .:/app
     env_file:
       - .env
+    networks:
+      - gather-net
 
   webprod:
     build: .
