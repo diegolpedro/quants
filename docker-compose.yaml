@@ -11,7 +11,7 @@ services:
     env_file:
       - .env
     networks:
-      - mi-red
+      - gather-net
 
   collstatics:
     build: .
@@ -48,8 +48,8 @@ services:
       - .:/app
     depends_on:
       - collstatics
-    ports:
-      - "8080:8080"
+    expose:
+      - 8080
     env_file:
       - .env
     networks:
